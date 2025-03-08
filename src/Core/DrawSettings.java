@@ -18,13 +18,7 @@ public class DrawSettings implements Cloneable   {
     public boolean useFill;
     public boolean useStroke;
 
-    public DrawSettings() {
-        //default settings for the shape
-        // fill = Integer.decode("#FFFFFF");
-        strokeWeight = 2;
-        useFill = true;
-    }
-
+    public DrawSettings(){}
     public DrawSettings(DrawSettings other) {
         this.fill         = other.fill;
         this.stroke       = other.stroke;
@@ -107,8 +101,8 @@ public class DrawSettings implements Cloneable   {
     @Override
     public String toString() {
         return 
-            String.format ("Fill: %b, %d\n", useFill, fill) +
-            String.format ("Stroke %b, %d, %f, %d", useStroke, stroke, strokeWeight, strokeCap)
+            String.format ("Fill: %b, f(%d)\n", useFill, fill) +
+            String.format ("Stroke %b, s(%d), sw(%f), sc(%d)", useStroke, stroke, strokeWeight, strokeCap)
         ;
     }
 }

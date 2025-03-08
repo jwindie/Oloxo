@@ -20,7 +20,7 @@ public class Solid extends AbstractShape  {
         this.position = new PVector();
         this.anchor = new PVector();
         this.anchorOffset = new PVector();
-        
+        applyDefaultDrawSettings();
     }
     public Solid (Shape shape,PVector position, PVector size) {
         this.shape = shape;
@@ -28,6 +28,7 @@ public class Solid extends AbstractShape  {
         this.position = position;
         this.anchor = new PVector();
         this.anchorOffset = new PVector();
+        applyDefaultDrawSettings();
     }
     public Solid (Shape shape,PVector position, PVector size, float ul, float ur, float lr, float ll) {
         this.shape = shape;
@@ -36,6 +37,7 @@ public class Solid extends AbstractShape  {
         this.anchor = new PVector();
         this.anchorOffset = new PVector();
         setCorners(ul, ur, lr, ll);
+        applyDefaultDrawSettings();
     }
     public Solid (Shape shape, PVector position, PVector size, float[] corners) {
         this.shape = shape;
@@ -51,6 +53,7 @@ public class Solid extends AbstractShape  {
                 corners.length > 3 ? corners[3] : 0
             );
         }
+        applyDefaultDrawSettings();
     }
 
     public PVector getAnchoredPosition() {
@@ -144,5 +147,11 @@ public class Solid extends AbstractShape  {
             -size.x * anchor.x,
             -size.y * anchor.y
         );
+    }
+
+    @Override
+    protected void applyDefaultDrawSettings() {
+        settings.setFill(Utils.DefaultColors.WHITE);
+        settings.setUseFill(true);
     }
 }

@@ -30,4 +30,5 @@ public abstract class AbstractShape extends Entity {
     }
 
     public abstract void draw(PApplet target);
+    protected abstract void applyDefaultDrawSettings();
 }

@@ -1,11 +1,13 @@
+import Core.DrawSettings;
+import Core.Line;
 import Core.Solid;
-import java.awt.Color;
 import processing.core.PApplet;
 import processing.core.PVector;
 
 public class App extends PApplet {
 	
 	Solid s = new Solid(Solid.Shape.RECTANGLE);
+	Line l = new Line();
     
     public static void main(String[] args) {
 		PApplet.main("App");
@@ -24,26 +26,42 @@ public class App extends PApplet {
 		ellipseMode(CORNER);
 
 		s.setAnchor(new PVector(.5f, .5f));
-		s.setPosition(new PVector(width/2, height/2));
+		s.setPosition(new PVector(width/2,height/2));
 		s.setSize(new PVector(200, 80));
 		s.setCorners(8);
 		s.getDrawSettings().setFill (hexColor("F00"));
-		println(s.getDrawSettings().toString());
+		s.setDrawBounds(true);
+
+		l.getDrawSettings().setStroke(Utils.DefaultColors.ORANGE);
+		l.getDrawSettings().setStrokeWeight(50);
+		l.setPoints(
+			new PVector(width/2,height/2),
+			new PVector(0,0)
+		);
+		l.setDrawBounds(true);
+		println(l.getDrawSettings().toString());
+
     }
 
     @Override
     public void draw() {
+		l.setEndPoint(new PVector(mouseX, mouseY));
+		
 		background(100);
 		s.draw(this);
-		// fill(255);
-		// rect (30, 30, 50, 50,8,8,8,8);
+		l.draw(this);
     }
 
+	//#region APPLET METHODS
 	/**Parses colors from Hexadecimal to Processing formatted-int colors.
 	 * <p>
 	 * You can use 6 and 3 digit hex for rgb, or 8 and 4 digit hex for rgba.
 	*/
 	int hexColor (String hexColor) {
+
+		if (hexColor.charAt(0) == '#') hexColor = hexColor.substring(1);
+	
+
 		// Parse the RGB values from the hex string
 		int r=0, g=0, b=0, a=255;
 
@@ -80,6 +98,7 @@ public class App extends PApplet {
 		}
 		return color(r,g,b,a);
 	}
+	//#endregion
 }
 
 /*
