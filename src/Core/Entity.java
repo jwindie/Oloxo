@@ -1,12 +1,9 @@
-package Griddom.Core;
+package Core;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**Represents any Pigl object. */
 public class Entity {
-    private static Map<Integer, Entity> entityMap = new HashMap<>();
-    private static int createdObjects = 0;
     private int instanceId;
 
     public Entity() {
@@ -25,4 +22,8 @@ public class Entity {
     public void destroy() {
         entityMap.remove(instanceId);
     }
+
+    //statics
+    private static Map<Integer, Entity> entityMap = new HashMap<>();
+    private static int createdObjects = 0;
 }

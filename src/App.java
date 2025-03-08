@@ -1,6 +1,11 @@
+import Core.Solid;
+import java.awt.Color;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class App extends PApplet {
+	
+	Solid s = new Solid(Solid.Shape.RECTANGLE);
     
     public static void main(String[] args) {
 		PApplet.main("App");
@@ -8,8 +13,8 @@ public class App extends PApplet {
 
     @Override
     public void settings() {
-        size(800, 600);  // Use P2D renderer here
-        pixelDensity(displayDensity());
+      	size(800, 600);
+     	pixelDensity(displayDensity());
         smooth(8);
     }
 
@@ -17,12 +22,64 @@ public class App extends PApplet {
     public void setup() {
 		rectMode(CORNER);
 		ellipseMode(CORNER);
+
+		s.setAnchor(new PVector(.5f, .5f));
+		s.setPosition(new PVector(width/2, height/2));
+		s.setSize(new PVector(200, 80));
+		s.setCorners(8);
+		s.getDrawSettings().setFill (hexColor("F00"));
+		println(s.getDrawSettings().toString());
     }
 
     @Override
     public void draw() {
 		background(100);
+		s.draw(this);
+		// fill(255);
+		// rect (30, 30, 50, 50,8,8,8,8);
     }
+
+	/**Parses colors from Hexadecimal to Processing formatted-int colors.
+	 * <p>
+	 * You can use 6 and 3 digit hex for rgb, or 8 and 4 digit hex for rgba.
+	*/
+	int hexColor (String hexColor) {
+		// Parse the RGB values from the hex string
+		int r=0, g=0, b=0, a=255;
+
+		if (hexColor.length() == 6) {
+			r = Integer.parseInt(hexColor.substring(0, 2), 16);
+			g = Integer.parseInt(hexColor.substring(2, 4), 16);
+			b = Integer.parseInt(hexColor.substring(4, 6), 16);
+		}
+		else if (hexColor.length() == 8) {
+			r = Integer.parseInt(hexColor.substring(0, 2), 16);
+			g = Integer.parseInt(hexColor.substring(2, 4), 16);
+			b = Integer.parseInt(hexColor.substring(4, 6), 16);
+			a = Integer.parseInt(hexColor.substring(6, 8), 16);
+		}
+		else if (hexColor.length() == 3) {
+			r = Integer.parseInt(hexColor.substring(0, 1), 16);
+			g = Integer.parseInt(hexColor.substring(1, 2), 16);
+			b = Integer.parseInt(hexColor.substring(2, 3), 16);		
+
+			r = Math.clamp(r*r,0,255);
+			g = Math.clamp(g*g,0,255);
+			b = Math.clamp(b*b,0,255);
+		}
+		else if (hexColor.length() ==4) {
+			r = Integer.parseInt(hexColor.substring(0, 1), 16);
+			g = Integer.parseInt(hexColor.substring(1, 2), 16);
+			b = Integer.parseInt(hexColor.substring(2, 3), 16);		
+			a = Integer.parseInt(hexColor.substring(3, 4), 16);		
+
+			r = Math.clamp(r*r,0,255);
+			g = Math.clamp(g*g,0,255);
+			b = Math.clamp(b*b,0,255);
+			a = Math.clamp(a*a,0,255);
+		}
+		return color(r,g,b,a);
+	}
 }
 
 /*
