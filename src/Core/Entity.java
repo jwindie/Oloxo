@@ -1,4 +1,4 @@
-package Quark.Core;
+package Griddom.Core;
 
 import java.util.HashMap;
 import java.util.Map;
