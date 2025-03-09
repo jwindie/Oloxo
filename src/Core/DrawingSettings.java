@@ -3,8 +3,8 @@ package Core;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
-public class DrawSettings implements Cloneable   {
-    public static DrawSettings lastAppliedSettings = new DrawSettings();
+public class DrawingSettings implements Cloneable   {
+    public static DrawingSettings lastAppliedSettings = new DrawingSettings();
 
     public static final int STROKE_CAP_SQUARE = PConstants.SQUARE;
     public static final int STROKE_CAP_ROUND = PConstants.ROUND;
@@ -18,8 +18,8 @@ public class DrawSettings implements Cloneable   {
     public boolean useFill;
     public boolean useStroke;
 
-    public DrawSettings(){}
-    public DrawSettings(DrawSettings other) {
+    public DrawingSettings(){}
+    public DrawingSettings(DrawingSettings other) {
         this.fill         = other.fill;
         this.stroke       = other.stroke;
         this.strokeCap    = other.strokeCap;
@@ -73,9 +73,9 @@ public class DrawSettings implements Cloneable   {
     }
 
     @Override
-    public DrawSettings clone() {
+    public DrawingSettings clone() {
         try {
-            DrawSettings ds = (DrawSettings) super.clone();
+            DrawingSettings ds = (DrawingSettings) super.clone();
             // You can also apply custom logic for the new object, if needed
             ds.setFill(fill);
             ds.setStroke(stroke);
@@ -89,7 +89,7 @@ public class DrawSettings implements Cloneable   {
         }
     }
 
-    public static void copy(DrawSettings source, DrawSettings target) {
+    public static void copy(DrawingSettings source, DrawingSettings target) {
         target.setFill(source.getFill());
         target.setStroke(source.getStroke());
         target.setStrokeCap  (source.getStrokeCap());

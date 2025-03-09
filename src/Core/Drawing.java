@@ -2,13 +2,18 @@ package Core;
 
 import processing.core.PApplet;
 
-public abstract class AbstractShape extends Entity {
-    protected DrawSettings settings = new DrawSettings();
+public abstract class Drawing extends Entity {
+        
+    protected DrawingSettings settings = new DrawingSettings();
+
+    protected Drawing(String name) {
+        super(name);
+    }
 
     public boolean ignoreDrawSettings = false;   
 
-    public DrawSettings getDrawSettings() {return settings;}
-    public DrawSettings copySettings() {return settings.clone();}
+    public DrawingSettings getDrawSettings() {return settings;}
+    public DrawingSettings copySettings() {return settings.clone();}
     
 
     public boolean getIgnoreDrawSettings() {return ignoreDrawSettings;
@@ -17,7 +22,7 @@ public abstract class AbstractShape extends Entity {
     public void setIgnoreDrawSettings(boolean ignoreDrawSettings) {
         this.ignoreDrawSettings = ignoreDrawSettings;
     }
-    public void setShapeSettings(DrawSettings settings) {
+    public void setShapeSettings(DrawingSettings settings) {
         this.settings = settings;
     }
 
@@ -31,4 +36,6 @@ public abstract class AbstractShape extends Entity {
 
     public abstract void draw(PApplet target);
     protected abstract void applyDefaultDrawSettings();
+
+
 }

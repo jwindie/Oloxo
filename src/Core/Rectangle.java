@@ -3,35 +3,41 @@ package Core;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Solid extends AbstractShape  {  
-    public enum Shape {
-        RECTANGLE,
-        ELLIPSE
-    }
+public class Rectangle extends Drawing  {  
 
-    PVector position, size, anchor, anchorOffset;
-    float[] corners;
-    public Shape shape;
-    public boolean drawBounds;
+    private static int instanceCount = 0;
 
-    public Solid(Shape shape) {
-        this.shape = shape;
+    private PVector position, size, anchor, anchorOffset;
+    private float[] corners;
+    private boolean drawBounds;
+
+
+    protected Rectangle (String name) {
+        super(name);
         this.size = new PVector(50,50);
         this.position = new PVector();
         this.anchor = new PVector();
         this.anchorOffset = new PVector();
         applyDefaultDrawSettings();
     }
-    public Solid (Shape shape,PVector position, PVector size) {
-        this.shape = shape;
+    public Rectangle() {
+        super("Rectangle " + (instanceCount ++ + 1));
+        this.size = new PVector(50,50);
+        this.position = new PVector();
+        this.anchor = new PVector();
+        this.anchorOffset = new PVector();
+        applyDefaultDrawSettings();
+    }
+    public Rectangle (PVector position, PVector size) {
+        super("Rectangle " + (instanceCount ++ + 1));
         this.size = size;
         this.position = position;
         this.anchor = new PVector();
         this.anchorOffset = new PVector();
         applyDefaultDrawSettings();
     }
-    public Solid (Shape shape,PVector position, PVector size, float ul, float ur, float lr, float ll) {
-        this.shape = shape;
+    public Rectangle (PVector position, PVector size, float ul, float ur, float lr, float ll) {
+        super("Rectangle " + (instanceCount ++ + 1));
         this.size = size;
         this.position = position;
         this.anchor = new PVector();
@@ -39,8 +45,8 @@ public class Solid extends AbstractShape  {
         setCorners(ul, ur, lr, ll);
         applyDefaultDrawSettings();
     }
-    public Solid (Shape shape, PVector position, PVector size, float[] corners) {
-        this.shape = shape;
+    public Rectangle (PVector position, PVector size, float[] corners) {
+        super("Rectangle " + (instanceCount ++ + 1));
         this.size = size;
         this.position = position;
         this.anchor = new PVector();
@@ -63,7 +69,6 @@ public class Solid extends AbstractShape  {
         if (corners == null) return new float[] {0,0,0,0};
         else return corners.clone();
     }
-    public Shape getShape() { return shape; }
 
     public void setAnchor (PVector anchor) {
         //clamp the values
@@ -91,9 +96,6 @@ public class Solid extends AbstractShape  {
     public void setPosition (PVector position) {
         this.position = position;
     }
-    public void setShape(Shape shape) {
-        this.shape = shape;
-    }
     public void setSize (PVector size ) {
         this.size = size;
         updateAnchorOffset();
@@ -107,28 +109,16 @@ public class Solid extends AbstractShape  {
 
         overrideDrawSettings(target); //if there are settingsoverrides we will inject them here
 
-        switch (shape) {
-            case Shape.RECTANGLE:
-                target.rect (
-                    position.x + anchorOffset.x, 
-                    position.y + anchorOffset.y,
-                    size.x, 
-                    size.y,
-                    corners == null ? 0 : corners[0],
-                    corners == null ? 0 : corners[1],
-                    corners == null ? 0 : corners[2],
-                    corners == null ? 0 : corners[3]
-                ); 
-            break;
-            case Shape.ELLIPSE:
-            target.ellipse (
-                    position.x + anchorOffset.x, 
-                    position.y + anchorOffset.y,
-                    size.x, 
-                    size.y
-                ); 
-            break;
-        }
+        target.rect (
+            position.x + anchorOffset.x, 
+            position.y + anchorOffset.y,
+            size.x, 
+            size.y,
+            corners == null ? 0 : corners[0],
+            corners == null ? 0 : corners[1],
+            corners == null ? 0 : corners[2],
+            corners == null ? 0 : corners[3]
+        ); 
 
         if (drawBounds)  {
             float hs = settings.getStrokeWeight() / 2f;

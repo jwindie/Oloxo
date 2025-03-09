@@ -4,17 +4,27 @@ import Utils.DefaultColors;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Line extends AbstractShape  {  
+public class Line extends Drawing  {  
+
+    private static int instanceCount = 0;
 
     PVector startPoint, endPoint;
     public boolean drawBounds;
 
+    protected Line(String name) {
+        super(name);
+        this.startPoint = new PVector(20,20);
+        this.endPoint = new PVector(100,100);
+        applyDefaultDrawSettings();
+    }
     public Line() {
+        super("Line " + (instanceCount ++ + 1));
         this.startPoint = new PVector(20,20);
         this.endPoint = new PVector(100,100);
         applyDefaultDrawSettings();
     }
     public Line(PVector startPoint, PVector endPoint) {
+        super("Line " + (instanceCount ++ + 1));
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         applyDefaultDrawSettings();
@@ -62,6 +72,6 @@ public class Line extends AbstractShape  {
         settings.setStrokeWeight(2);
         settings.setStroke(DefaultColors.WHITE);
         settings.setUseStroke(true);
-        settings.setStrokeCap(DrawSettings.STROKE_CAP_ROUND);
+        settings.setStrokeCap(DrawingSettings.STROKE_CAP_ROUND);
     }
 }

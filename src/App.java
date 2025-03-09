@@ -1,12 +1,12 @@
-import Core.DrawSettings;
+import Core.Entity;
 import Core.Line;
-import Core.Solid;
+import Core.Rectangle;
 import processing.core.PApplet;
 import processing.core.PVector;
 
 public class App extends PApplet {
 	
-	Solid s = new Solid(Solid.Shape.RECTANGLE);
+	Rectangle s = new Rectangle();
 	Line l = new Line();
     
     public static void main(String[] args) {
@@ -41,6 +41,9 @@ public class App extends PApplet {
 		l.setDrawBounds(true);
 		println(l.getDrawSettings().toString());
 
+		for (String s : Entity.getNames()) {
+			println(s);
+		}
     }
 
     @Override
@@ -132,6 +135,5 @@ Start with a center area
   -at some point its more smart to build an tier II building with a higher base prod
   -some buildings may take up more than one tile
   -cannot place buildings on conflic areas or areas that are not suitable
-  
 -
 */
