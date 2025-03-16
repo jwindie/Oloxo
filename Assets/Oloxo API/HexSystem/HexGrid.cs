@@ -34,7 +34,7 @@ namespace Oloxo.HexSystem {
             return this;
         }
 
-        public void HarvestCell (Vector3 position, bool state) {
+        public HexCell GetCell (Vector3 position) {
             position = transform.InverseTransformPoint (position);
             HexCoordinates coordinates = HexCoordinates.FromPosition (position);
 
@@ -42,10 +42,11 @@ namespace Oloxo.HexSystem {
             int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
             HexCell cell = cells[index];
 
-            //do stuff to the cell
-            cell.harvested = state;
 
-            //tell the mesh to triangulate
+            return cells[index];
+        }
+
+        public void Refresh () { 
             hexMesh.Triangulate (cells);
         }
 

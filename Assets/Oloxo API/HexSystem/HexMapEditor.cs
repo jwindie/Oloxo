@@ -19,8 +19,16 @@ namespace Oloxo.HexSystem {
             Ray inputRay = m_Camera.ScreenPointToRay (Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast (inputRay, out hit)) {
-                hexGrid.HarvestCell (hit.point, harvested);
+                EditCell (hexGrid.GetCell (hit.point));
             }
+        }
+
+        void EditCell (HexCell cell) {
+            //make the changes to the cell here
+            cell.harvested = harvested;
+
+            //call refresh
+            hexGrid.Refresh ();
         }
     }
 }
