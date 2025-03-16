@@ -68,11 +68,31 @@ namespace Oloxo.HexSystem {
             position.x = (x + z * 0.5f - z / 2) * (HexMetrics.INNER_RADIUS * 2f);
             position.y = 0f;
             position.z = z * (HexMetrics.OUTER_RADIUS * 1.5f);
-
+            
+            //create cell, parent and position it, and set its coords
             HexCell cell = cells[i] = Instantiate<HexCell> (cellPrefab);
             cell.transform.SetParent (transform, false);
             cell.transform.localPosition = position;
             cell.coordinates = HexCoordinates.FromOffsetCoordinates (x, z);
+
+            //set the neighbors on the cell
+            if (x > 0) {//E -> W connection
+                cell.SetNeighbor (HexDirection.W, cells[i - 1]);
+            }
+            if (z > 0) {
+                if ((z & 1) == 0) {
+                    cell.SetNeighbor (HexDirection.SE, cells[i - width]);
+                    if (x > 0) {
+                        cell.SetNeighbor (HexDirection.SW, cells[i - width - 1]);
+                    }
+                }
+                else {
+                    cell.SetNeighbor (HexDirection.SW, cells[i - width]);
+                    if (x < width - 1) {
+                        cell.SetNeighbor (HexDirection.SE, cells[i - width + 1]);
+                    }
+                }
+            }
         }
     }
 }
