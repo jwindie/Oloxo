@@ -1,3 +1,4 @@
+using Oloxo.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,8 +7,14 @@ namespace Oloxo.HexSystem {
     public class HexMapEditor : MonoBehaviour {
 
         [SerializeField] private Camera m_Camera;
-        public bool harvested;
         public HexGrid hexGrid;
+
+        [Header ("Settings")]
+        [Range (0, 4)] public int brushSize;
+        [Space (20)]
+        public Terrain terrain;
+        public bool harvested;
+
 
         void Update () {
             if (Input.GetMouseButton (0) && !EventSystem.current.IsPointerOverGameObject ()) {
@@ -19,16 +26,41 @@ namespace Oloxo.HexSystem {
             Ray inputRay = m_Camera.ScreenPointToRay (Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast (inputRay, out hit)) {
-                EditCell (hexGrid.GetCell (hit.point));
+                EditCells (hexGrid.GetCell (hit.point));
             }
         }
 
-        void EditCell (HexCell cell) {
-            //make the changes to the cell here
-            cell.harvested = harvested;
+        void EditCells (HexCell center) {
+            //get the coords of the center cell
+            int centerX = center.coordinates.X;
+            int centerZ = center.coordinates.Z;
 
-            //call refresh
-            hexGrid.Refresh ();
+            //loop through the bottom of the selection
+            for (int r = 0, z = centerZ - brushSize ; z <= centerZ ; z++, r++) {
+                for (int x = centerX - r ; x <= centerX + brushSize ; x++) {
+                    EditCell (hexGrid.GetCell (new HexCoordinates (x, z)));
+                }
+            }
+
+            //repeat for the top half
+            for (int r = 0, z = centerZ + brushSize ; z > centerZ ; z--, r++) {
+                for (int x = centerX - brushSize ; x <= centerX + r ; x++) {
+                    EditCell (hexGrid.GetCell (new HexCoordinates (x, z)));
+                }
+            }
+
+        }
+
+        void EditCell (HexCell cell) {
+            if (cell) {
+                //make the changes to the cell here
+                cell.Harvested = harvested;
+                cell.Terrain = terrain; 
+            }
+        }
+
+        private void OnValidate () {
+            //do not allow the editor to make some decisions.
         }
     }
 }

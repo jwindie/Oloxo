@@ -15,6 +15,9 @@ namespace Oloxo.HexSystem {
             new Vector3(0f, 0f, OUTER_RADIUS),
         };
 
+        public const int CHUNK_SIZE_X = 5;
+        public const int CHUNK_SIZE_Z = 6;
+
         public static Vector3 GetFirstCorner (HexDirection direction) {
             return CORNERS[(int) direction];
         }

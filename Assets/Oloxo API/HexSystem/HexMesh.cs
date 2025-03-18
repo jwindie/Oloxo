@@ -7,15 +7,17 @@ namespace Oloxo.HexSystem {
     [RequireComponent (typeof (MeshFilter), typeof (MeshRenderer))]
     public class HexMesh : MonoBehaviour {
 
+        //create static buffers for the triangulation
+        static List<Vector3> vertices = new List<Vector3> ();
+        static List<Vector2> uvs = new List<Vector2> ();
+        static List<int> triangles = new List<int> ();
+
         private readonly Vector3 harvestOffset = new Vector3 (0, -.001f, 0);
 
         Mesh hexMesh;
         new MeshCollider collider;
-        List<Vector3> vertices;
-        List<Vector2> uvs;
-        List<int> triangles;
 
-        public HexMesh Init () {
+        public void Awake () {
             GetComponent<MeshFilter> ().mesh = hexMesh = new Mesh ();
             collider = gameObject.gameObject.AddComponent<MeshCollider> ();
 
@@ -23,8 +25,6 @@ namespace Oloxo.HexSystem {
             vertices = new List<Vector3> ();
             uvs = new List<Vector2> ();
             triangles = new List<int> ();
-
-            return this;
         }
 
         /// <summary>
@@ -57,12 +57,12 @@ namespace Oloxo.HexSystem {
             //we deviate from the tutorial here because we do not use triangles in any way
             //instead, load the model and add its raw data into the mesh buffers
 
-            var model = App.Current.Game.ModelLoader.GetModel (Models.ModelId.Terrain_Land);
+            var model = App.Current.Game.ModelLoader.GetModel (cell.Terrain.GetModelId());
             if (model.Mesh == null) return; //skip triangulation if there is no mesh to add
 
             Vector3 center = cell.transform.localPosition;
             Vector2 uvOffset = Vector2.zero;
-            if (cell.harvested) {
+            if (cell.Harvested) {
                 center += harvestOffset;
                 uvOffset = new Vector2 (.5f, 0);
             }
