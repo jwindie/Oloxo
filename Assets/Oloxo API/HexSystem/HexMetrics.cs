@@ -17,6 +17,7 @@ namespace Oloxo.HexSystem {
 
         public const int CHUNK_SIZE_X = 5;
         public const int CHUNK_SIZE_Z = 6;
+        public const int MAX_RIVERS_PER_TILE = 4;
 
         public static Vector3 GetFirstCorner (HexDirection direction) {
             return CORNERS[(int) direction];
