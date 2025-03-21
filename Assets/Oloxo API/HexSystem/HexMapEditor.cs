@@ -1,4 +1,3 @@
-using Oloxo.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,13 +5,21 @@ namespace Oloxo.HexSystem {
 
     public class HexMapEditor : MonoBehaviour {
 
+        [System.Serializable]
+        public enum EditMode {
+            Ignore, Add, Remove
+        }
+
         [SerializeField] private Camera m_Camera;
         public HexGrid hexGrid;
 
         [Header ("Settings")]
         [Range (0, 4)] public int brushSize;
         [Space (20)]
+        EditMode terrainEditMode;
         public Terrain terrain;
+        [Space (20)]
+        EditMode harvestedEditMode;
         public bool harvested;
 
 
@@ -54,8 +61,8 @@ namespace Oloxo.HexSystem {
         void EditCell (HexCell cell) {
             if (cell) {
                 //make the changes to the cell here
-                cell.Harvested = harvested;
-                cell.Terrain = terrain; 
+                if (harvestedEditMode > EditMode.Ignore) cell.Harvested = harvestedEditMode == EditMode.Add;
+                if (terrainEditMode > EditMode.Ignore)  cell.Terrain = terrain; 
             }
         }
 

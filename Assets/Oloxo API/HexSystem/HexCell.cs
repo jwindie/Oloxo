@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,8 +17,8 @@ namespace Oloxo.HexSystem {
 
         Terrain terrain = default;
 
-        //river data
-        List<HexDirection> riverDirections = new List<HexDirection> (6);
+        int riverConnections;
+        bool[] riverDirections = new bool[6];
 
         public bool Harvested {
             get { return harvested; }
@@ -44,7 +45,7 @@ namespace Oloxo.HexSystem {
         /// </summary>
         public bool HasRiver {
             get {
-                return riverDirections.Count > 0;
+                return riverConnections > 0;
             }
         }
 
@@ -54,24 +55,12 @@ namespace Oloxo.HexSystem {
         /// </summary>
         public bool HasRiverStartOrEnd {
             get {
-                return riverDirections.Count == 1;
+                return riverConnections == 1;
             }
         }
 
         public bool HasRiverThroughEdge (HexDirection direction) {
-            //iterate over all the valid river connections and return true if any are true;
-            for (int i = 0 ; i < riverDirections.Count ; i++) if (riverDirections[i] == direction) return true;
-            return false;
-        }
-
-        /// <summary>
-        /// Returns the river index assigned to this direction.
-        /// </summary>
-        /// <param name="dir"></param>
-        /// <returns></returns>
-        public int GetRiverIndex (HexDirection dir) {
-            for (int i = 0 ; i < riverDirections.Count ; i++) if (riverDirections[i] == dir) return i;
-            return -1;
+            return riverDirections[(int) direction];
         }
 
         /// <summary>
@@ -82,31 +71,35 @@ namespace Oloxo.HexSystem {
         /// </summary>
         /// <param name="direction"></param>
         public void RemoveRiver (HexDirection direction) {
-            RemoveRiver (GetRiverIndex (direction));
+            RemoveRiver ((int) direction);
         }
 
         /// <summary>
         /// Removes all rivers on the tile.
         /// </summary>
         public void RemoveAllRivers () {
-            for (int i = 0 ; i < riverDirections.Count ; i++) {
+            for (int i = 0 ; i < riverDirections.Length ; i++) {
                 RemoveRiver (i);
             }
         }
 
         public void RemoveRiver (int index) {
-            if (index >= riverDirections.Count) {
-                return;
-            }
+            //prevent out of bounds
+            if (index < 0 || index > 5) return;
 
+            //convert the index to a direction
+            HexDirection direction = (HexDirection) index;
+            int oppositeIndex = (int) direction.Opposite ();
 
-            //remove the rive on the neighbor tile
-            HexCell neighbor = GetNeighbor (riverDirections[index]);
-            neighbor.riverDirections.Remove (riverDirections[index].Opposite ());
+            //remove the river on the neighbor tile
+            HexCell neighbor = GetNeighbor (direction);
+            neighbor.riverDirections[oppositeIndex] = false;
+            neighbor.riverConnections -= 1;
             neighbor.RefreshSelfOnly ();
 
             //remove the river connection on this tile
-            riverDirections.RemoveAt (index);
+            riverDirections[index] = false;
+            riverConnections -= 1;
             RefreshSelfOnly ();
         }
 
@@ -157,14 +150,14 @@ namespace Oloxo.HexSystem {
             }
         }
 
-        private void OnDrawGizmos() {
+        private void OnDrawGizmos () {
             //Draw a red dot at the position of all neighbor tiles
             Gizmos.color = Color.red;
             Gizmos.DrawSphere (transform.position, 1f);
 
-            for (int i = 0 ; i < 3; i++) {
+            for (int i = 0 ; i < 3 ; i++) {
                 if (neighbors[i] != null) {
-                    if (riverDirections.Contains ((HexDirection) i)){
+                    if (riverDirections[i]) {
                         Gizmos.color = Color.blue;
                     }
                     else {
