@@ -8,7 +8,7 @@ namespace Oloxo {
         Water,
         Grass,
         Beach,
-        Mountain
+        Mountain,
     }
 
     public static class TerrainExtensionMethods {

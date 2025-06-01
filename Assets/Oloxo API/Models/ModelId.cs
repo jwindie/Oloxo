@@ -14,5 +14,6 @@ namespace Oloxo.Models {
         Terrain_Sand, 
         Terrain_Land,
         Terrain_Mountain,
+        Terrain_River
     }
 }

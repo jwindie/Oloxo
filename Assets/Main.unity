@@ -175,14 +175,16 @@ MonoBehaviour:
   models:
   - mesh: {fileID: 0}
     id: 0
-  - mesh: {fileID: 3065556405952602016, guid: b6cc010484397304f897a9ffc41bed6b, type: 3}
+  - mesh: {fileID: 8802771628929948559, guid: b6cc010484397304f897a9ffc41bed6b, type: 3}
     id: 1
-  - mesh: {fileID: -804826892730565989, guid: b6cc010484397304f897a9ffc41bed6b, type: 3}
+  - mesh: {fileID: 2619641988390469232, guid: b6cc010484397304f897a9ffc41bed6b, type: 3}
     id: 2
   - mesh: {fileID: -7022513380987582902, guid: b6cc010484397304f897a9ffc41bed6b, type: 3}
     id: 3
-  - mesh: {fileID: 1126342649734664189, guid: b6cc010484397304f897a9ffc41bed6b, type: 3}
+  - mesh: {fileID: -8309454925240937116, guid: b6cc010484397304f897a9ffc41bed6b, type: 3}
     id: 4
+  - mesh: {fileID: 2853985462952578016, guid: b6cc010484397304f897a9ffc41bed6b, type: 3}
+    id: 5
 --- !u!1 &231253761 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 678191589578203022, guid: e5102bd48ea1e224a87127d928896c3c,

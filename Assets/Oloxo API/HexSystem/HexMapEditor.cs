@@ -16,11 +16,11 @@ namespace Oloxo.HexSystem {
         [Header ("Settings")]
         [Range (0, 4)] public int brushSize;
         [Space (20)]
-        EditMode terrainEditMode;
+        public EditMode terrainEditMode;
         public Terrain terrain;
         [Space (20)]
-        EditMode harvestedEditMode;
-        public bool harvested;
+        public EditMode harvestedEditMode;
+        public EditMode riverEditMode;
 
 
         void Update () {
@@ -63,6 +63,7 @@ namespace Oloxo.HexSystem {
                 //make the changes to the cell here
                 if (harvestedEditMode > EditMode.Ignore) cell.Harvested = harvestedEditMode == EditMode.Add;
                 if (terrainEditMode > EditMode.Ignore)  cell.Terrain = terrain; 
+                //if (riverEditMode > EditMode.Ignore) cell.ha
             }
         }
 
